@@ -1,0 +1,12 @@
+{
+  "name": "table-scraping",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Jack Heywood",
+  "license": "ISC",
+  "description": "Example of table scraping.",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
