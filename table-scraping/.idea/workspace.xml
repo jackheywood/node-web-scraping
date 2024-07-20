@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="074ded30-e3ec-4881-9ac2-ed6a86f5e068" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../scraping-intro/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../scraping-intro/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+    <list default="true" id="6d16a163-6f9f-4eb0-963a-df1dfe6e37f3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +21,9 @@
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2jWD7tuwgKYiyCMGEIoWa9KBgqw" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -36,7 +35,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "table-scraping",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "20.15.1",
     "javascript.nodejs.core.library.typings.version": "20.14.11",
     "last_opened_file_path": "D:/Training/WebScraping/node-web-scraping/table-scraping",
@@ -63,12 +63,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="074ded30-e3ec-4881-9ac2-ed6a86f5e068" name="Changes" comment="" />
+      <changelist id="6d16a163-6f9f-4eb0-963a-df1dfe6e37f3" name="Changes" comment="" />
       <created>1721493774893</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1721493774893</updated>
       <workItem from="1721493776046" duration="1849000" />
+      <workItem from="1721497237472" duration="59000" />
     </task>
     <servers />
   </component>
