@@ -1,26 +1,41 @@
 const cheerio = require('cheerio');
 
 const tableUrl = 'https://www.codingwithstefan.com/table-example/';
+const tableHeaders = [];
+const scrapedData = [];
 
 async function main() {
   const http = await fetch(tableUrl).then(res => res.text());
   const $ = cheerio.load(http);
 
-  const scrapedData = [];
-
   $('table > tbody > tr').each((index, row) => {
-    if (index === 0) return;
-
-    const cells = $(row).find('td');
-
-    const company = $(cells[0]).text();
-    const contact = $(cells[1]).text();
-    const country = $(cells[2]).text();
-
-    scrapedData.push({ company, contact, country });
+    if (index === 0) {
+      scrapeHeaderRow($, row);
+    } else {
+      scrapeDataRow($, row);
+    }
   });
 
   console.log(scrapedData);
+}
+
+function scrapeHeaderRow($, row) {
+  const headers = $(row).find('th');
+
+  headers.each((index, header) => {
+    tableHeaders.push($(header).text().toLowerCase());
+  });
+}
+
+function scrapeDataRow($, row) {
+  const cells = $(row).find('td');
+
+  const rowData = {};
+  cells.each((index, cell) => {
+    rowData[tableHeaders[index]] = $(cell).text();
+  })
+
+  scrapedData.push(rowData);
 }
 
 // noinspection JSIgnoredPromiseFromCall
