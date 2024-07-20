@@ -1,15 +1,20 @@
-const axios = require('axios');
 const cheerio = require('cheerio');
 
 const braigslistUrl = 'https://braigslist.vercel.app';
 
+async function getHtml(url) {
+  return await fetch(url).then(response => response.text());
+}
+
 async function scrapeJobsFromIndexPages() {
+  console.log('Scraping index pages...');
   const jobs = [];
 
   for (let i = 1; i <= 14; i++) {
-    const jobPageUrl = `${braigslistUrl}/jobs/${i}/`;
-    const jobPage = await axios.get(jobPageUrl);
-    const $ = cheerio.load(jobPage.data);
+    const jobPage = await getHtml(`${braigslistUrl}/jobs/${i}/`);
+    printProgress(i, 14);
+
+    const $ = cheerio.load(jobPage);
 
     const titleLinks = $('.title-blob > a');
 
@@ -26,18 +31,28 @@ async function scrapeJobsFromIndexPages() {
 }
 
 async function scrapeJobDescriptions(jobs) {
-  // Firing off all requests at once is not a good idea
-  // Uses up all the ports and is likely to get you blocked
-  return await Promise.all(
-    jobs.map(async job => {
-      const descriptionPageUrl = `${braigslistUrl}${job.url}`;
-      const descriptionPage = await axios.get(descriptionPageUrl);
+  console.log('Scraping job descriptions...');
+  let i = 0;
 
-      const $ = cheerio.load(descriptionPage.data);
+  for (const job of jobs) {
+    const descriptionPage = await getHtml(`${braigslistUrl}${job.url}`);
+    printProgress(++i, jobs.length);
 
-      job.description = $('div').text();
-      return job;
-    }));
+    const $ = cheerio.load(descriptionPage);
+    job.description = $('div').text();
+  }
+
+  return jobs;
+}
+
+function printProgress(index, total) {
+  const progress = ((index / total) * 100).toFixed(1);
+  process.stdout.clearLine(0);
+  process.stdout.cursorTo(0);
+  process.stdout.write(`Progress: ${progress}%`);
+  if (index >= total) {
+    process.stdout.write('\n');
+  }
 }
 
 async function main() {
