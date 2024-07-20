@@ -2,7 +2,11 @@ const cheerio = require('cheerio');
 
 const braigslistUrl = 'https://braigslist.vercel.app';
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function getHtml(url) {
+  const timeout = Math.floor(Math.random() * 2000) + 1000;
+  await sleep(timeout);
   return await fetch(url).then(response => response.text());
 }
 
