@@ -1,15 +1,19 @@
 const cheerio = require('cheerio');
+const mongoose = require('mongoose');
 const puppeteer = require('puppeteer');
+require('dotenv').config();
+
+const JobListing = require('./models/job-listing');
 
 const craigslistUrl = 'https://newyork.craigslist.org/search/sof#search=1~thumb~0~0';
 
 async function scrapeJobs() {
-  const browser = await puppeteer.launch({ headless: false });
+  await connectToMongoDb();
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  const listings = await scrapeJobListings(page);
-  const jobs = await scrapeJobPages(listings, page);
+  const jobs = await scrapeJobListings(page);
+  await scrapeAndSaveJobListingPages(jobs, page);
   await browser.close();
-  return jobs;
 }
 
 async function scrapeJobListings(page) {
@@ -28,7 +32,7 @@ async function scrapeJobListings(page) {
     }).get();
 }
 
-async function scrapeJobPages(listings, page) {
+async function scrapeAndSaveJobListingPages(listings, page) {
   for (let i = 0; i < listings.length; i++) {
     console.log(`Processing job ${i + 1}/${listings.length}`);
     const $ = await loadHtml(listings[i].url, page);
@@ -39,8 +43,23 @@ async function scrapeJobPages(listings, page) {
     listings[i].employmentType = $('.employment_type > .valu').text().trim();
     listings[i].datePosted = new Date($('#display-date > time').attr('datetime'));
     listings[i].description = $('#postingbody').text().trim();
+
+    await saveJobListing(listings[i]);
   }
   return listings;
+}
+
+async function saveJobListing(job) {
+  console.log('Saving job listing');
+  const jobListing = new JobListing(job);
+  await jobListing.save();
+  console.log('Saved job listing');
+}
+
+async function connectToMongoDb() {
+  console.log('Connect to MongoDB');
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log('Connected to MongoDB');
 }
 
 async function loadHtml(url, page) {
@@ -64,5 +83,4 @@ async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-scrapeJobs()
-  .then((results) => console.log(results));
+scrapeJobs().then(() => console.log('Completed'));

@@ -11,6 +11,8 @@
   "description": "Craigslist webscraper using puppeteer",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.5.1",
     "puppeteer": "^22.13.1"
   }
 }
